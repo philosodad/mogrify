@@ -1,19 +1,10 @@
-require "minitest/autorun"
 class Hash
   def symogriform
     symogriformed = {}
-    symogrified = self
-    symogrified.keys.each do |key|
-      if symogrified[key].is_a?(Hash)
-        symogrified[key] = symogrified[key].symogriform
-      end
+    self.each do |key, value|
+      symogriformed[symog(key)] = value.is_a?(Hash) ? value.symogriform : value
     end
-    symogriformed.merge!(symogrify(symogrified))
     symogriformed
-  end
-
-  def symogrify part
-    part.keys.inject({}){|hash, key| hash.merge({symog(key) => part[key]})}
   end
 
   def symog key
@@ -25,12 +16,8 @@ module Enumerable
   def hashmogrify(&block)
     hash = {}
     self.each do |e|
-      result = block.call(e)
-      if result.is_a?(Array)
-        hash[result[0]] = result[1]
-      else
-        hash[result] = e
-      end
+      key, value = [*block.call(e), e]
+      hash[key] = value
     end
     hash
   end
