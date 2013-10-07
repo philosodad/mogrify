@@ -1,7 +1,7 @@
 class Hash
   def symogriform
     symogriformed = {}
-    symogrified = self
+    symogrified = self.dup
     symogrified.keys.each do |key|
       if symogrified[key].is_a?(Hash)
         symogrified[key] = symogrified[key].symogriform

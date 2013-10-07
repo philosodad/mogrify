@@ -4,6 +4,12 @@ require "minitest/autorun"
 
 describe Hash do
   describe "symogriform" do
+    it "should not modify nested hashes" do
+      hash = { "inner" => { "A" => :a, "B" => :b } }
+      hash.symogriform
+      hash.must_equal({ "inner" => { "A" => :a, "B" => :b } })
+    end
+
     it "should convert keys to symbols" do
       {"A" => :a, "B" => :b}.symogriform.must_equal({A: :a, B: :b}) 
     end
