@@ -1,4 +1,3 @@
-require "minitest/autorun"
 class Hash
   def symogriform
     symogriformed = {}
