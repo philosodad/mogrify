@@ -16,12 +16,8 @@ module Enumerable
   def hashmogrify(&block)
     hash = {}
     self.each do |e|
-      result = block.call(e)
-      if result.is_a?(Array)
-        hash[result[0]] = result[1]
-      else
-        hash[result] = e
-      end
+      key, value = [*block.call(e), e]
+      hash[key] = value
     end
     hash
   end
