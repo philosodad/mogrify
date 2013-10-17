@@ -21,11 +21,5 @@ module Enumerable
     end
     hash
   end
-
-  def rest
-    other = self.dup
-    other.shift
-    other
-  end
 end
 

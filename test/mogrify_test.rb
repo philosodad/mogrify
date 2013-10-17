@@ -2,34 +2,35 @@ $:.unshift File.join(File.dirname(__FILE__),'..','lib')
 require 'mogrify'
 require "minitest/autorun"
 
-describe "Hash#symogriform" do
-  it "should not modify nested hashes" do
-    hash = { "inner" => { "A" => :a, "B" => :b } }
-    hash.symogriform
-    hash.must_equal({ "inner" => { "A" => :a, "B" => :b } })
-  end
+describe Hash do
+  describe "symogriform" do
+    it "should not modify nested hashes" do
+      hash = { "inner" => { "A" => :a, "B" => :b } }
+      hash.symogriform
+      hash.must_equal({ "inner" => { "A" => :a, "B" => :b } })
+    end
 
-  it "should convert keys to symbols" do
-    {"A" => :a, "B" => :b}.symogriform.must_equal({A: :a, B: :b}) 
-  end
+    it "should convert keys to symbols" do
+      {"A" => :a, "B" => :b}.symogriform.must_equal({A: :a, B: :b}) 
+    end
 
-  it "should convert keys at arbitrary layers to symbols" do
-    {"A" => {"A" => "a"}, "B" => {"B" => {"C" => {}}}}.symogriform.must_equal({A: {A: "a"}, B: {B: {C: {}}}})
-  end
+    it "should convert keys at arbitrary layers to symbols" do
+      {"A" => {"A" => "a"}, "B" => {"B" => {"C" => {}}}}.symogriform.must_equal({A: {A: "a"}, B: {B: {C: {}}}})
+    end
 
-  it "should ignore non-string keys" do
-    {1 => "a", 2 => "a"}.symogriform.must_equal({1 => "a", 2 => "a"})
+    it "should ignore non-string keys" do
+      {1 => "a", 2 => "a"}.symogriform.must_equal({1 => "a", 2 => "a"})
+    end
   end
 end
 
-describe "Enumerable#hashmogrify" do
+describe "Enumerable#to_hash" do
   it "creates a hash from any enumerable object" do
     [].hashmogrify(&:whatever).must_be_instance_of Hash
   end
   it "uses an object attribute to create the keys for the hash" do
     ["foo", "barr", "bazzz"].hashmogrify(&:length).keys.must_equal [3,4,5]
   end
-
   it "can accept a block to define a custom key function" do
     hash = ["foo", "bar", "baz"].hashmogrify { |s| s.reverse }
     hash.keys.must_equal ["oof", "rab", "zab"]
@@ -49,14 +50,3 @@ describe "Enumerable#hashmogrify" do
     })
   end
 end
-
-describe "Enumerable#rest" do
-  it "should return an array of everything except the first item in an array" do
-    [1,2,3,4,5].rest.must_equal([2,3,4,5]) 
-  end
-
-  it "should do something interesting when given a hash" do
-    {1 => 2, 3 => 4}.rest.must_equal({3 => 4})
-  end
-end
-
