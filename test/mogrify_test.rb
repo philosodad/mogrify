@@ -24,7 +24,7 @@ describe Hash do
   end
 end
 
-describe "Enumerable#to_hash" do
+describe "Enumerable#hashmogrify" do
   it "creates a hash from any enumerable object" do
     [].hashmogrify(&:whatever).must_be_instance_of Hash
   end
@@ -43,6 +43,24 @@ describe "Enumerable#to_hash" do
 
   it "can accept a block to define both the keys and the values in the hash" do
     hash = ["foo", "barr", "bazzz"].hashmogrify { |s| [s, s.length] }
+    hash.must_equal({
+      "foo" => 3,
+      "barr" => 4,
+      "bazzz" => 5
+    })
+  end
+
+end
+
+describe "Enumerable#hashmogrificate" do
+
+  it "will preserve data when mogrification creates duplicate keys" do
+    [[1,2,3], "bar", "baz", "bazz"].hashmogrificate{|s| s.length > 3}.values.must_equal([[[1,2,3], "bar", "baz"], "bazz"])
+    [[1,2,3], "bar", "baz", "bazz"].hashmogrificate{|s| s.length > 3}.keys.must_equal([false, true])
+  end
+
+  it "will act as hashmogrify when no keys are duplicates" do
+    hash = ["foo", "barr", "bazzz"].hashmogrificate { |s| [s, s.length] }
     hash.must_equal({
       "foo" => 3,
       "barr" => 4,
