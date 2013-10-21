@@ -7,6 +7,14 @@ class Hash
     symogriformed
   end
 
+  def symogrify
+    symogrified = {}
+    self.each do |key, value|
+      symogrified[symog(key)] = value
+    end
+    symogrified
+  end
+
   def symog key
     key.is_a?(String) ? key.to_sym : key
   end

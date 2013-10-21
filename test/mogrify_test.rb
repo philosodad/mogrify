@@ -22,6 +22,12 @@ describe Hash do
       {1 => "a", 2 => "a"}.symogriform.must_equal({1 => "a", 2 => "a"})
     end
   end
+
+  describe "symogrify" do
+    it "should not transform nested keys" do
+      {"A" => {"A" => "a"}, "B" => {"B" => "C"}}.symogrify.must_equal({ A: {"A" => "a"}, B: {"B" => "C"}})
+    end
+  end
 end
 
 describe "Enumerable#hashmogrify" do
