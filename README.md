@@ -1,5 +1,7 @@
 mogrify
 =======
+[![Build Status](https://semaphoreci.com/api/v1/projects/cdef4c14-2949-432a-bf45-2cbe5df46a8f/512972/badge.svg)](https://semaphoreci.com/philosodad/mogrify)      
+
 
 The mogrify gem is a set of non-destructive transformers for enumerable objects. The tests are the best place to look for a feel of what the methods do.
 
